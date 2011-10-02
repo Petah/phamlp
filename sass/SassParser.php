@@ -798,6 +798,9 @@ class SassParser {
 			case '@for':
 				return new SassForNode($token);
 				break;
+			case '@each':
+				return new SassEachNode($token);
+				break;
 			case '@if':
 				return new SassIfNode($token);
 				break;

@@ -22,6 +22,7 @@ require_once('SassRuleNode.php');
 require_once('SassVariableNode.php');
 require_once('SassExtendNode.php');
 require_once('SassForNode.php');
+require_once('SassEachNode.php');
 require_once('SassIfNode.php');
 require_once('SassElseNode.php');
 require_once('SassWhileNode.php');
