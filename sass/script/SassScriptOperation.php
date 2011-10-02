@@ -16,7 +16,7 @@
  * @subpackage	Sass.script
  */
 class SassScriptOperation {
-  const MATCH = '/^(\(|\)|\+|-|\*|\/|%|<=|>=|<|>|==|!=|=|#{|}|,|and\b|or\b|xor\b|not\b)/';
+  const MATCH = '/^(\(|\)|\+{2}|-{2}|\+|-|\*|\/|%|<=|>=|<|>|==|!=|=|#{|}|,|and\b|or\b|xor\b|not\b)/';
 
 	/**
 	 * @var array map symbols to tokens.
@@ -28,6 +28,8 @@ class SassScriptOperation {
 		'%'		=> array('modulo',	'l', 8, 2),
 		'+'		=> array('plus',		'l', 7, 2),
 		'-'		=> array('minus',		'l', 7, 2),
+		'++'	=> array('increment',   'l', 7, 1),
+		'--'	=> array('decrement',   'l', 7, 1),
 		'<<'	=> array('shiftl',	'l', 6, 2),
 		'>>'	=> array('shiftr',	'l', 6, 2),
 		'<='	=> array('lte',			'l', 5, 2),

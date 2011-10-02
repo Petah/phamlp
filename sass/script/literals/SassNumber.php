@@ -197,7 +197,29 @@ class SassNumber extends SassLiteral {
 			return parent::op_div($other);
 		}
 	}
-	
+    
+
+	/**
+	 * Increases the value of the current number, and returns a new number with the previous value
+	 * @return SassNumber 
+	 */
+	public function op_increment() {
+        $value = $this->value;
+        $this->value++;
+        return new SassNumber($value.$this->units);
+    }
+
+
+	/**
+	 * Decreases the value of the current number, and returns a new number with the previous value
+	 * @return SassNumber 
+	 */
+    public function op_decrement() {
+        $value = $this->value;
+        $this->value--;
+        return new SassNumber($value.$this->units);
+    }
+    
 	/**
 	 * The SassScript == operation.
 	 * @return SassBoolean SassBoolean object with the value true if the values
@@ -393,14 +415,6 @@ class SassNumber extends SassLiteral {
 	 */
 	public function isUnitless() {
 	  return empty($this->numeratorUnits) && empty($this->denominatorUnits);
-	}
-
-	/**
-	 * Returns a value indicating if this number has units.
-	 * @return boolean true if this number has, false if not
-	 */
-	public function hasUnits() {
-		return !$this->isUnitless();
 	}
 
 	/**

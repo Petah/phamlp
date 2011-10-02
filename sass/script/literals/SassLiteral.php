@@ -132,6 +132,14 @@ abstract class SassLiteral {
 		return new SassString($this->toString().'/'.$other->toString());
 	}
 
+	public function op_increment($other) {
+		throw new SassLiteralException('{class} does not support {operation}.', array('{class}'=>get_class($this), '{operation}'=>Phamlp::t('sass', 'Increment')), SassScriptParser::$context->node);
+    }
+
+    public function op_decrement($other) {
+		throw new SassLiteralException('{class} does not support {operation}.', array('{class}'=>get_class($this), '{operation}'=>Phamlp::t('sass', 'Decrement')), SassScriptParser::$context->node);
+    }
+    
 	/**
 	 * SassScript '%' operation.
 	 * @param SassLiteral value to take the modulus of
