@@ -418,6 +418,14 @@ class SassNumber extends SassLiteral {
 	}
 
 	/**
+	 * Returns a value indicating if this number has units.
+	 * @return boolean true if this number has, false if not
+	 */
+	public function hasUnits() {
+		return !$this->isUnitless();
+	}
+
+	/**
 	 * Returns a value indicating if this number has units that can be represented
 	 * in CSS.
 	 * @return boolean true if this number has units that can be represented in
