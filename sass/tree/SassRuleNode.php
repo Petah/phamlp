@@ -172,10 +172,12 @@ class SassRuleNode extends SassNode {
 		array_pop($selector);
 		
 		$common = array();
-		while($extender[0] === $selector[0]) {
-			$common[] = array_shift($selector);
-			array_shift($extender);
-		}
+        if (sizeof($extender) > 0) {
+            while($extender[0] === $selector[0]) {
+                $common[] = array_shift($selector);
+                array_shift($extender);
+            }
+        }
 		
 		$begining = (!empty($common) ? join(' ', $common) . ' ' : '');
 		

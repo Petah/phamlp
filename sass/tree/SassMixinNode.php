@@ -21,6 +21,11 @@ class SassMixinNode extends SassNode {
 	const IDENTIFIER = 1;
 	const NAME = 2;
 	const ARGS = 3;
+    
+    // Name parameters (keyword arguments)
+	const NAMED_MATCH = '/^[$]{1}([a-zA-Z0-9_-]+):\s*(.*)$/i';
+    const NAMED_NAME = 1;
+    const NAMED_VALUE = 2;
 
 	/**
 	 * @var string name of the mixin
@@ -60,10 +65,27 @@ class SassMixinNode extends SassNode {
 		$count = 0;
 		foreach ($mixin->args as $name=>$value) {
 			if ($count < $argc) {
-				$context->setVariable($name, $this->evaluate($this->args[$count++], $context));
+                $match = preg_match(self::NAMED_MATCH, $this->args[$count], $matches);
+                if ($match) {
+                    if (!$context->hasVariable($name)) {
+                        // Set the default parameter
+                        $context->setVariable($name, $this->evaluate($value, $context));
+                    }
+                    
+                    // Set the named parameter
+                    $name = $matches[self::NAMED_NAME];
+                    $value = $matches[self::NAMED_VALUE];
+
+                    $context->setVariable($name, $this->evaluate($value, $context));
+                } elseif (!$context->hasVariable($name)) {
+                    $context->setVariable($name, $this->evaluate($this->args[$count], $context));
+                }
+                $count++;
 			}
 			elseif (!is_null($value)) {
-				$context->setVariable($name, $this->evaluate($value, $context));
+                if (!$context->hasVariable($name)) {
+                    $context->setVariable($name, $this->evaluate($value, $context));
+                }
 			}
 			else {
 				throw new SassMixinNodeException("Mixin::{mname}: Required variable ({vname}) not given.\nMixin defined: {dfile}::{dline}\nMixin used", array('{vname}'=>$name, '{mname}'=>$this->name, '{dfile}'=>$mixin->token->filename, '{dline}'=>$mixin->token->line), $this);
